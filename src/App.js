@@ -13,6 +13,7 @@ function App() {
 const RANDOM_QUOTE_QUERY = gql`
   query getRandomQuote {
     randomQuote {
+      invalid
       text
       author
     }
@@ -20,10 +21,19 @@ const RANDOM_QUOTE_QUERY = gql`
 `;
 
 const RandomQuote = () => {
-  const { data, loading } = useQuery(RANDOM_QUOTE_QUERY);
+  const { data, loading, error } = useQuery(RANDOM_QUOTE_QUERY, {
+    onError: (error) => {
+      console.log("error:", error);
+      window.lastError = error;
+    },
+    errorPolicy: "all",
+  });
 
   if (loading) {
     return "Quote is loading...";
+  }
+  if (error) {
+    return "Could not load quote!";
   }
   const randomQuote = data.randomQuote;
 
