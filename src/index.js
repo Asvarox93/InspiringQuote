@@ -13,6 +13,7 @@ const URL = "https://examples.devmastery.pl/random-stuff/graphql";
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({ uri: URL }),
+  queryDeduplication: false,
 });
 
 ReactDOM.render(

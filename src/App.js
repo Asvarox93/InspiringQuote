@@ -6,6 +6,9 @@ function App() {
     <div className="App">
       <h1>Inspiring quote</h1>
       <RandomQuote />
+      <RandomQuote />
+      <RandomQuote />
+      <RandomQuote />
     </div>
   );
 }
@@ -13,7 +16,6 @@ function App() {
 const RANDOM_QUOTE_QUERY = gql`
   query getRandomQuote {
     randomQuote {
-      invalid
       text
       author
     }
@@ -21,12 +23,13 @@ const RANDOM_QUOTE_QUERY = gql`
 `;
 
 const RandomQuote = () => {
-  const { data, loading, error } = useQuery(RANDOM_QUOTE_QUERY, {
+  const { data, loading, error, refetch } = useQuery(RANDOM_QUOTE_QUERY, {
     onError: (error) => {
       console.log("error:", error);
       window.lastError = error;
     },
     errorPolicy: "all",
+    fetchPolicy: "no-cache",
   });
 
   if (loading) {
@@ -37,7 +40,12 @@ const RandomQuote = () => {
   }
   const randomQuote = data.randomQuote;
 
-  return <Quote {...randomQuote} />;
+  return (
+    <>
+      <Quote {...randomQuote} />
+      <button onClick={() => refetch()}>Get new quote</button>
+    </>
+  );
 };
 
 const Quote = ({ text, author }) => {
