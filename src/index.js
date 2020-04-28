@@ -7,7 +7,7 @@ import {
   ApolloProvider,
 } from "@apollo/client";
 import "./index.css";
-import App from "./App";
+import App from "./components/App";
 
 const URL = "https://examples.devmastery.pl/random-stuff/graphql";
 const client = new ApolloClient({

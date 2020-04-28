@@ -1,17 +1,6 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-
-function App() {
-  return (
-    <div className="App">
-      <h1>Inspiring quote</h1>
-      <RandomQuote />
-      <RandomQuote />
-      <RandomQuote />
-      <RandomQuote />
-    </div>
-  );
-}
+import Quote from "./Quote";
 
 const RANDOM_QUOTE_QUERY = gql`
   query getRandomQuote {
@@ -31,7 +20,6 @@ const RandomQuote = () => {
     errorPolicy: "all",
     fetchPolicy: "no-cache",
   });
-
   if (loading) {
     return "Quote is loading...";
   }
@@ -39,7 +27,6 @@ const RandomQuote = () => {
     return "Could not load quote!";
   }
   const randomQuote = data.randomQuote;
-
   return (
     <>
       <Quote {...randomQuote} />
@@ -48,13 +35,4 @@ const RandomQuote = () => {
   );
 };
 
-const Quote = ({ text, author }) => {
-  return (
-    <blockquote>
-      {text}
-      <footer>{author}</footer>
-    </blockquote>
-  );
-};
-
-export default App;
+export default RandomQuote;
